@@ -1,18 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import BackButton from "../components/BackButton";
 
 function LoginPage() {
-  const navigate = useNavigate();
-
   return (
     <main className="login-page">
       <section className="login-card">
-        <button
-          type="button"
-          className="back-button"
-          onClick={() => navigate(-1)}
-        >
-          ← 뒤로가기
-        </button>
+        <BackButton />
 
         <h1>Posterify</h1>
         <p>포스터를 등록하고 플레이리스트를 연결하려면 로그인해 주세요.</p>

@@ -1,40 +1,18 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { dummyPosters } from "../data/dummyPosters";
+import AdminSidebar from "../components/AdminSidebar";
+import BackButton from "../components/BackButton";
+import PosterRow from "../components/PosterRow";
 
 function AdminDashboard() {
-  const navigate = useNavigate();
-
   return (
     <main className="admin-layout">
-      <aside className="admin-sidebar">
-        <h1>Posterify</h1>
-
-        <div className="admin-profile">
-          <div className="profile-icon">P</div>
-          <div>
-            <strong>관리자 페이지</strong>
-            <p>posterify@test.com</p>
-          </div>
-        </div>
-
-        <nav>
-          <Link className="active" to="/admin">
-            포스터 관리
-          </Link>
-          <Link to="/">사용자 페이지</Link>
-        </nav>
-      </aside>
+      <AdminSidebar />
 
       <section className="admin-content">
         <header className="admin-content-header">
           <div>
-            <button
-              type="button"
-              className="back-button"
-              onClick={() => navigate(-1)}
-            >
-              ← 뒤로가기
-            </button>
+            <BackButton />
 
             <h2>포스터 관리</h2>
             <p>등록된 포스터와 Spotify 플레이리스트를 관리합니다.</p>
@@ -59,27 +37,7 @@ function AdminDashboard() {
           </div>
 
           {dummyPosters.map((poster) => (
-            <article className="poster-row" key={poster.id}>
-              <img src={poster.imageUrl} alt={poster.title} />
-
-              <div>
-                <strong>{poster.title}</strong>
-                <p>{poster.artist}</p>
-              </div>
-
-              <p className="url-text">{poster.spotifyUrl}</p>
-
-              <span className={poster.isPublic ? "status public" : "status private"}>
-                {poster.isPublic ? "공개" : "비공개"}
-              </span>
-
-              <div className="row-actions">
-                <Link to={`/admin/posters/${poster.id}/edit`}>
-                  <button className="secondary-button small">수정</button>
-                </Link>
-                <button className="danger-button small">삭제</button>
-              </div>
-            </article>
+            <PosterRow key={poster.id} poster={poster} />
           ))}
         </section>
       </section>

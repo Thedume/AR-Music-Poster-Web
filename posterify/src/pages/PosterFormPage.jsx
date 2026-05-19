@@ -1,34 +1,21 @@
-import { Link, useNavigate } from "react-router-dom";
-    
-function PosterFormPage() {
-  const navigate = useNavigate();
+import { Link } from "react-router-dom";
+import AdminSidebar from "../components/AdminSidebar";
+import BackButton from "../components/BackButton";
 
+function PosterFormPage() {
   return (
     <main className="admin-layout">
-      <aside className="admin-sidebar">
-        <h1>Posterify</h1>
-
-        <nav>
-          <Link to="/admin">포스터 관리</Link>
-          <Link to="/">사용자 페이지</Link>
-        </nav>
-      </aside>
+      <AdminSidebar />
 
       <section className="admin-content form-content">
         <header className="admin-content-header">
-            <div>
-                <button
-                type="button"
-                className="back-button"
-                onClick={() => navigate(-1)}
-                >
-                ← 뒤로가기
-                </button>
+          <div>
+            <BackButton />
 
-                <p className="breadcrumb">포스터 관리 / 등록 및 수정</p>
-                <h2>포스터 등록하기</h2>
-                <p>포스터 이미지와 Spotify 플레이리스트 링크를 연결합니다.</p>
-            </div>
+            <p className="breadcrumb">포스터 관리 / 등록 및 수정</p>
+            <h2>포스터 등록하기</h2>
+            <p>포스터 이미지와 Spotify 플레이리스트 링크를 연결합니다.</p>
+          </div>
         </header>
 
         <section className="poster-form-layout">
