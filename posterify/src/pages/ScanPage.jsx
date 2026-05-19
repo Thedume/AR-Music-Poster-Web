@@ -14,6 +14,7 @@ function ScanPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [detectedPoster, setDetectedPoster] = useState(null);
   const [isScannerVisible, setIsScannerVisible] = useState(true);
+  const [scannerKey, setScannerKey] = useState(0);
   const [scanMessage, setScanMessage] = useState("포스터를 찾고 있어요...");
   const [isOpeningSpotify, setIsOpeningSpotify] = useState(false);
 
@@ -56,11 +57,14 @@ function ScanPage() {
   }, []);
 
   function handleBack() {
+    scanLockedRef.current = true;
+    setShowModal(false);
+    setDetectedPoster(null);
     setIsScannerVisible(false);
 
     setTimeout(() => {
       navigate("/");
-    }, 100);
+    }, 250);
   }
 
   function handleRetryScan() {
@@ -68,10 +72,13 @@ function ScanPage() {
     setDetectedPoster(null);
     setIsOpeningSpotify(false);
     setScanMessage("포스터를 찾고 있어요...");
+    setIsScannerVisible(false);
 
     setTimeout(() => {
       scanLockedRef.current = false;
-    }, 500);
+      setScannerKey((prev) => prev + 1);
+      setIsScannerVisible(true);
+    }, 300);
   }
 
   function openSpotify() {
@@ -91,6 +98,7 @@ function ScanPage() {
     <main className="scan-page">
       {isScannerVisible && !isLoadingPosters && publicPosters.length > 0 && (
         <MindARScanner
+          key={scannerKey}
           posters={publicPosters}
           onTargetFound={handleTargetFound}
           onError={handleMindARError}

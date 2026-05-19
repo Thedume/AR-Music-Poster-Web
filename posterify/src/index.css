@@ -1060,3 +1060,21 @@ button:disabled {
   color: var(--text-muted);
   line-height: 1.8;
 }
+
+.sidebar-logo {
+  display: block;
+  width: fit-content;
+  margin: 0 0 36px;
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.logo {
+  margin: 0;
+  font-size: 24px;
+  color: var(--primary);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}

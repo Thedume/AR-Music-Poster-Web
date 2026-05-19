@@ -22,7 +22,9 @@ function HomePage() {
   return (
     <main className="home-page">
       <header className="top-header">
-        <h1 className="logo">Posterify</h1>
+        <Link to="/" className="logo">
+          Posterify
+        </Link>
 
         {!isChecking && (
           <Link to={adminLinkPath} className="text-link">

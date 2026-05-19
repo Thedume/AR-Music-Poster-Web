@@ -16,7 +16,9 @@ function AdminSidebar() {
 
   return (
     <aside className="admin-sidebar">
-      <h1>Posterify</h1>
+      <Link to="/" className="sidebar-logo">
+        Posterify
+      </Link>
 
       <div className="admin-profile">
         <div className="profile-icon">P</div>
@@ -29,10 +31,6 @@ function AdminSidebar() {
       <nav>
         <Link className="active" to="/admin">
           포스터 관리
-        </Link>
-
-        <Link to="/">
-          사용자 페이지로 이동
         </Link>
 
         <button type="button" className="sidebar-logout" onClick={handleLogout}>
