@@ -1,5 +1,6 @@
-# AR Music Poster Web
+# AR Music Poster Web : Posterify
 
+프로젝트명 : Posterify
 포스터 또는 앨범 커버를 모바일 카메라로 스캔하면 연결된 Spotify 플레이리스트를 실행하는 WebAR 기반 프로젝트.
 
 ---
