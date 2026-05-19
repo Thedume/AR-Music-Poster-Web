@@ -5,6 +5,7 @@ import {
   doc,
   orderBy,
   query,
+  where,
   addDoc,
   updateDoc,
   deleteDoc,
@@ -18,6 +19,21 @@ export async function getPosters() {
   const postersQuery = query(
     collection(db, POSTERS_COLLECTION),
     orderBy("createdAt", "desc")
+  );
+
+  const snapshot = await getDocs(postersQuery);
+
+  return snapshot.docs.map((docItem) => ({
+    id: docItem.id,
+    ...docItem.data(),
+  }));
+}
+
+export async function getPublicPosters() {
+  const postersQuery = query(
+    collection(db, POSTERS_COLLECTION),
+    where("isPublic", "==", true),
+    orderBy("targetIndex", "asc")
   );
 
   const snapshot = await getDocs(postersQuery);

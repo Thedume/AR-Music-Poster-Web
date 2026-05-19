@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "firebase": "^12.13.0",
+    "mind-ar": "^1.2.5",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-router-dom": "^7.15.1"
+    "react-router-dom": "^7.15.1",
+    "three": "^0.150.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

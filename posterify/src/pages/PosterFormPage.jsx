@@ -25,6 +25,8 @@ function PosterFormPage() {
   const [isPageLoading, setIsPageLoading] = useState(isEditMode);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [targetIndex, setTargetIndex] = useState("");
+
   useEffect(() => {
     async function loadPoster() {
       if (!isEditMode) return;
@@ -46,6 +48,11 @@ function PosterFormPage() {
         setImageUrl(poster.imageUrl || "");
         setPreviewUrl(poster.imageUrl || "");
         setIsPublic(Boolean(poster.isPublic));
+        setTargetIndex(
+          poster.targetIndex !== undefined && poster.targetIndex !== null
+            ? String(poster.targetIndex)
+            : ""
+        );
       } catch (error) {
         console.error(error);
         setErrorMessage("포스터 정보를 불러오는 중 문제가 발생했습니다.");
@@ -80,6 +87,14 @@ function PosterFormPage() {
       return "포스터 이미지 주소를 입력해 주세요.";
     }
 
+    if (targetIndex === "") {
+      return "MindAR target index를 입력해 주세요.";
+    }
+
+    if (Number.isNaN(Number(targetIndex))) {
+      return "MindAR target index는 숫자로 입력해 주세요.";
+    }
+
     return "";
   }
 
@@ -103,6 +118,7 @@ function PosterFormPage() {
         spotifyUrl: spotifyUrl.trim(),
         imageUrl: imageUrl.trim(),
         isPublic,
+        targetIndex: Number(targetIndex),
       };
 
       if (isEditMode) {
@@ -183,6 +199,16 @@ function PosterFormPage() {
               />
             </label>
 
+            <label>
+              MindAR target index
+              <input
+                type="number"
+                placeholder="예: 0"
+                value={targetIndex}
+                onChange={(event) => setTargetIndex(event.target.value)}
+              />
+            </label>
+            
             <label>
               포스터 이미지 주소
               <input
