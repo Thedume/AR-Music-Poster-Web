@@ -101,7 +101,7 @@ function AdminDashboard() {
           <section className="poster-table">
             <div className="poster-table-header">
               <span>포스터</span>
-              <span>이름</span>
+              <span>이름 / Index</span>
               <span>Spotify 링크</span>
               <span>상태</span>
               <span>관리</span>

@@ -32,16 +32,17 @@ export async function getPosters() {
 export async function getPublicPosters() {
   const postersQuery = query(
     collection(db, POSTERS_COLLECTION),
-    where("isPublic", "==", true),
-    orderBy("targetIndex", "asc")
+    where("isPublic", "==", true)
   );
 
   const snapshot = await getDocs(postersQuery);
 
-  return snapshot.docs.map((docItem) => ({
-    id: docItem.id,
-    ...docItem.data(),
-  }));
+  return snapshot.docs
+    .map((docItem) => ({
+      id: docItem.id,
+      ...docItem.data(),
+    }))
+    .sort((a, b) => Number(a.targetIndex) - Number(b.targetIndex));
 }
 
 export async function getPosterById(posterId) {
@@ -56,6 +57,17 @@ export async function getPosterById(posterId) {
     id: posterSnap.id,
     ...posterSnap.data(),
   };
+}
+
+export async function isTargetIndexDuplicated(targetIndex, currentPosterId = null) {
+  const postersQuery = query(
+    collection(db, POSTERS_COLLECTION),
+    where("targetIndex", "==", Number(targetIndex))
+  );
+
+  const snapshot = await getDocs(postersQuery);
+
+  return snapshot.docs.some((docItem) => docItem.id !== currentPosterId);
 }
 
 export async function createPoster(poster) {

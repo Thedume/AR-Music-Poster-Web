@@ -8,6 +8,12 @@ function PosterRow({ poster, onDelete }) {
       <div>
         <strong>{poster.title}</strong>
         <p>{poster.artist || "설명 없음"}</p>
+        <p className="target-index-text">
+          targetIndex:{" "}
+          {poster.targetIndex !== undefined && poster.targetIndex !== null
+            ? poster.targetIndex
+            : "미설정"}
+        </p>
       </div>
 
       <p className="url-text">{poster.spotifyUrl}</p>

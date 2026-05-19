@@ -1021,3 +1021,42 @@ button:disabled {
   width: 100%;
   margin-top: 10px;
 }
+
+.field-help {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.target-index-text {
+  margin-top: 6px !important;
+  color: var(--primary) !important;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.target-index-guide {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 20px;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+}
+
+.target-index-guide h4 {
+  margin: 0 0 10px;
+}
+
+.target-index-guide p {
+  margin: 0 0 10px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.target-index-guide ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-muted);
+  line-height: 1.8;
+}

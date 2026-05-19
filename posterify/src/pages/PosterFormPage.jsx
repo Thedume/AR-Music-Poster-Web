@@ -5,6 +5,7 @@ import BackButton from "../components/BackButton";
 import {
   createPoster,
   getPosterById,
+  isTargetIndexDuplicated,
   updatePoster,
 } from "../firebase/posterService";
 
@@ -19,13 +20,12 @@ function PosterFormPage() {
   const [spotifyUrl, setSpotifyUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
+  const [targetIndex, setTargetIndex] = useState("");
   const [isPublic, setIsPublic] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(isEditMode);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const [targetIndex, setTargetIndex] = useState("");
 
   useEffect(() => {
     async function loadPoster() {
@@ -47,12 +47,12 @@ function PosterFormPage() {
         setSpotifyUrl(poster.spotifyUrl || "");
         setImageUrl(poster.imageUrl || "");
         setPreviewUrl(poster.imageUrl || "");
-        setIsPublic(Boolean(poster.isPublic));
         setTargetIndex(
           poster.targetIndex !== undefined && poster.targetIndex !== null
             ? String(poster.targetIndex)
             : ""
         );
+        setIsPublic(Boolean(poster.isPublic));
       } catch (error) {
         console.error(error);
         setErrorMessage("포스터 정보를 불러오는 중 문제가 발생했습니다.");
@@ -91,8 +91,14 @@ function PosterFormPage() {
       return "MindAR target index를 입력해 주세요.";
     }
 
-    if (Number.isNaN(Number(targetIndex))) {
-      return "MindAR target index는 숫자로 입력해 주세요.";
+    const targetIndexNumber = Number(targetIndex);
+
+    if (!Number.isInteger(targetIndexNumber)) {
+      return "MindAR target index는 정수로 입력해 주세요.";
+    }
+
+    if (targetIndexNumber < 0) {
+      return "MindAR target index는 0 이상이어야 합니다.";
     }
 
     return "";
@@ -112,13 +118,22 @@ function PosterFormPage() {
       setIsLoading(true);
       setErrorMessage("");
 
+      const duplicated = await isTargetIndexDuplicated(targetIndex, id);
+
+      if (duplicated) {
+        setErrorMessage(
+          "이미 같은 target index를 사용하는 포스터가 있습니다. targets.mind 파일의 이미지 순서를 다시 확인해 주세요."
+        );
+        return;
+      }
+
       const posterData = {
         title: title.trim(),
         artist: artist.trim(),
         spotifyUrl: spotifyUrl.trim(),
         imageUrl: imageUrl.trim(),
-        isPublic,
         targetIndex: Number(targetIndex),
+        isPublic,
       };
 
       if (isEditMode) {
@@ -200,16 +215,6 @@ function PosterFormPage() {
             </label>
 
             <label>
-              MindAR target index
-              <input
-                type="number"
-                placeholder="예: 0"
-                value={targetIndex}
-                onChange={(event) => setTargetIndex(event.target.value)}
-              />
-            </label>
-            
-            <label>
               포스터 이미지 주소
               <input
                 type="url"
@@ -217,6 +222,22 @@ function PosterFormPage() {
                 value={imageUrl}
                 onChange={handleImageUrlChange}
               />
+            </label>
+
+            <label>
+              MindAR target index
+              <input
+                type="number"
+                min="0"
+                step="1"
+                placeholder="예: 0"
+                value={targetIndex}
+                onChange={(event) => setTargetIndex(event.target.value)}
+              />
+              <span className="field-help">
+                targets.mind 파일을 만들 때 넣은 이미지 순서와 일치해야 합니다.
+                첫 번째 이미지는 0, 두 번째 이미지는 1입니다.
+              </span>
             </label>
 
             <label className="switch-label">
@@ -260,7 +281,17 @@ function PosterFormPage() {
               </div>
             )}
 
-            <p>등록된 이미지는 원본 비율을 유지해서 표시됩니다.</p>
+            <div className="target-index-guide">
+              <h4>target index 관리 기준</h4>
+              <p>
+                MindAR 컴파일러에 이미지를 넣은 순서가 target index가 됩니다.
+              </p>
+              <ul>
+                <li>1번째 이미지 → targetIndex 0</li>
+                <li>2번째 이미지 → targetIndex 1</li>
+                <li>3번째 이미지 → targetIndex 2</li>
+              </ul>
+            </div>
           </aside>
         </section>
       </section>
