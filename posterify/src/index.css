@@ -619,10 +619,11 @@ input:focus {
 }
 
 .poster-row img {
-  width: 68px;
-  height: 68px;
-  object-fit: cover;
-  border-radius: 18px;
+  max-width: 68px;
+  max-height: 68px;
+  width: auto;
+  height: auto;
+  border-radius: 12px;
   border: 1px solid var(--border);
 }
 
@@ -824,4 +825,70 @@ button:disabled {
 
 .sidebar-logout:hover {
   opacity: 0.85;
+}
+
+.admin-message {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.preview-image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  margin: 16px 0;
+}
+
+.preview-empty {
+  min-height: 180px;
+  margin: 16px 0;
+  padding: 20px;
+  border-radius: 20px;
+  background: var(--surface-strong);
+  border: 1px dashed var(--border);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.image-type-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.image-type-button {
+  padding: 13px 16px;
+  border-radius: 18px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.image-type-button.active {
+  background: var(--primary);
+  color: white;
+}
+
+.natural-preview-card {
+  overflow-x: auto;
+}
+
+.preview-image-natural {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  margin: 16px 0;
 }

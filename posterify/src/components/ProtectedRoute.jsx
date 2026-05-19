@@ -1,19 +1,31 @@
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { auth, authReady } from "../firebase/firebase";
 
 function ProtectedRoute({ children }) {
   const [user, setUser] = useState(null);
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setIsChecking(false);
-    });
+    let unsubscribe = null;
 
-    return () => unsubscribe();
+    async function checkAuth() {
+      await authReady;
+
+      unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+        setIsChecking(false);
+      });
+    }
+
+    checkAuth();
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, []);
 
   if (isChecking) {

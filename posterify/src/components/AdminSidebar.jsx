@@ -22,7 +22,7 @@ function AdminSidebar() {
         <div className="profile-icon">P</div>
         <div>
           <strong>관리자 페이지</strong>
-          <p>로그인 사용자</p>
+          <p>로그인 상태 유지 중</p>
         </div>
       </div>
 
@@ -30,7 +30,11 @@ function AdminSidebar() {
         <Link className="active" to="/admin">
           포스터 관리
         </Link>
-        <Link to="/">사용자 페이지</Link>
+
+        <Link to="/">
+          사용자 페이지로 이동
+        </Link>
+
         <button type="button" className="sidebar-logout" onClick={handleLogout}>
           로그아웃
         </button>

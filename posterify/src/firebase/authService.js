@@ -1,7 +1,9 @@
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth, authReady } from "./firebase";
 
 export async function loginWithEmail(email, password) {
+  await authReady;
+
   const userCredential = await signInWithEmailAndPassword(
     auth,
     email,
@@ -12,5 +14,6 @@ export async function loginWithEmail(email, password) {
 }
 
 export async function logout() {
+  await authReady;
   await signOut(auth);
 }

@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 
-function PosterRow({ poster }) {
+function PosterRow({ poster, onDelete }) {
   return (
     <article className="poster-row">
       <img src={poster.imageUrl} alt={poster.title} />
 
       <div>
         <strong>{poster.title}</strong>
-        <p>{poster.artist}</p>
+        <p>{poster.artist || "설명 없음"}</p>
       </div>
 
       <p className="url-text">{poster.spotifyUrl}</p>
@@ -21,7 +21,13 @@ function PosterRow({ poster }) {
           <button className="secondary-button small">수정</button>
         </Link>
 
-        <button className="danger-button small">삭제</button>
+        <button
+          type="button"
+          className="danger-button small"
+          onClick={() => onDelete(poster.id)}
+        >
+          삭제
+        </button>
       </div>
     </article>
   );

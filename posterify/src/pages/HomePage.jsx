@@ -1,13 +1,34 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/firebase";
 
 function HomePage() {
+  const [user, setUser] = useState(null);
+  const [isChecking, setIsChecking] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setIsChecking(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const adminLinkText = user ? "관리자 페이지" : "관리자 로그인";
+  const adminLinkPath = user ? "/admin" : "/login";
+
   return (
     <main className="home-page">
       <header className="top-header">
         <h1 className="logo">Posterify</h1>
-        <Link to="/login" className="text-link">
-          관리자 로그인
-        </Link>
+
+        {!isChecking && (
+          <Link to={adminLinkPath} className="text-link">
+            {adminLinkText}
+          </Link>
+        )}
       </header>
 
       <section className="hero-section">
@@ -52,7 +73,7 @@ function HomePage() {
       <nav className="bottom-nav">
         <Link to="/">홈</Link>
         <Link to="/scan">스캔</Link>
-        <Link to="/login">관리</Link>
+        {!isChecking && <Link to={adminLinkPath}>관리</Link>}
       </nav>
     </main>
   );
